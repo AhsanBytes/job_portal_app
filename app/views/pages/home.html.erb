@@ -1,0 +1,22 @@
+
+<% if current_user %>
+  <p> Hello <%= current_user.email %>! </p>
+  <p> You are a <%= current_user.role %> </p>
+  
+  <% if current_user.admin? || current_user.hr? %>
+    There are <%= User.count %> users in the system
+    <%= render template: 'jobs/index' %> 
+
+  <% elsif current_user.candidate? %>
+    <%= link_to "Apply for Jobs", all_jobs_path %>
+  <% end %>
+
+  <%= link_to "Logout", destroy_user_session_path, 'data-turbo-method': :delete %>
+
+<% else %>
+  <p> You are not logged in.</p>
+  <%= link_to "Sign Up!", new_user_registration_path %>
+  
+  <br />
+  <%= link_to "Login", new_user_session_path %>
+<% end %>

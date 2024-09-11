@@ -1,0 +1,26 @@
+<h1>Jobs</h1>
+
+<% if current_user.admin? %>
+  <%= puts "user is #{current_user.role}"%>
+  <%= link_to 'New Job', new_job_path %>
+<% end %>
+
+<% if current_user.candidate? %>
+    <%= form_with url: all_jobs_path, method: :get, local: true do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search by title" %>
+    <%= submit_tag 'Search' %>
+    <% end %>
+<% end %>
+
+<ul>
+  <% if @jobs %>
+    <% @jobs.each do |job| %>
+      <li>
+        <%= link_to job.title, job_path(job) %>
+        <%= job.location %>
+      </li>
+    <% end %>
+  <% else %>
+    <li>No jobs available</li>
+  <% end %>
+</ul>
