@@ -5,6 +5,22 @@ class UserPolicy < ApplicationPolicy
   # code, beware of possible changes to the ancestors:
   # https://gist.github.com/Burgestrand/4b4bc22f31c8a95c425fc0e30d7ef1f5
 
+  def create?
+    user.admin?
+  end
+
+  def update?
+    user.admin? || (user == record)
+  end
+
+  def destroy?
+    user.admin?
+  end
+
+  def show?
+    user.admin? || user.hr? || user == record
+  end
+
   class Scope < ApplicationPolicy::Scope
     def resolve
       if user.admin?
@@ -14,22 +30,6 @@ class UserPolicy < ApplicationPolicy
       else
         scope.where(id: user.id)
       end
-    end
-
-    def create?
-      user.admin?
-    end
-
-    def update?
-      user.admin? || (user == record)
-    end
-
-    def destroy?
-      user.admin?
-    end
-
-    def show?
-      user.admin? || user.hr? || user == record
     end
   end
 end

@@ -18,11 +18,14 @@ class JobsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
+    @job.creater_id = current_user.id
     authorize @job
 
     if @job.save
-      redirect_to @job, notice: 'Job was successfully created.'
+      flash[:notice] = "Job successfully created."
+      redirect_to @job
     else
+      flash[:alert] = "Failed to create job."
       render :new
     end
   end

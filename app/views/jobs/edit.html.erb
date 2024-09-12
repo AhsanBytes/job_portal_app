@@ -1,30 +1,8 @@
-<%= form_with(model: @job, local: true) do |form| %>
-  <%= form.label :title %>
-  <%= form.text_field :title %>
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Editing job</h1>
 
-  <%= form.label :description %>
-  <%= form.rich_text_area :description %>
+  <%= render "form", job: @job %>
 
-  <%= form.label :company %>
-  <%= form.text_field :company %>
-
-  <%= form.label :work_space_type %>
-  <%= form.select :work_space_type, Job.work_space_types.keys %>
-
-  <%= form.label :location %>
-  <%= form.text_field :location %>
-
-  <%= form.label :department_id %>
-  <%= form.collection_select :department_id, Department.all, :id, :dep_name %>
-
-  <%= form.label :skill_ids %>
-  <%= form.collection_check_boxes :skill_ids, Skill.all, :id, :skill_name %>
-
-  <%= form.label :lead_source %>
-  <%= form.text_field :lead_source %>
-
-  <%= form.label :active %>
-  <%= form.check_box :active %>
-
-  <%= form.submit %>
-<% end %>
+  <%= link_to "Show this job", @job, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= link_to "Back to jobs", jobs_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+</div>

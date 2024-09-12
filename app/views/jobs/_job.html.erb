@@ -1,0 +1,59 @@
+<div id="<%= dom_id job %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Title:</strong>
+    <%= job.title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= job.description %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Company:</strong>
+    <%= job.company %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Work Space Type:</strong>
+    <%= case job.work_space_type
+      when 0 then 'Onsite'
+      when 1 then 'Remote'
+      when 2 then 'Hybrid'
+    end %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Location:</strong>
+    <%= job.location %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Lead Source:</strong>
+    <%= job.lead_source %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Status:</strong>
+    <%= job.active ? 'Active' : 'Inactive' %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Creator:</strong>
+    <%= User.find(job.creater_id).name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Department:</strong>
+    <%= job.department.dep_name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Skills:</strong>
+    <ul>
+      <% job.skills.each do |skill| %>
+        <li><%= skill.skill_name %></li>
+      <% end %>
+    </ul>
+  </p>
+</div>

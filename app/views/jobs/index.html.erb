@@ -1,26 +1,43 @@
-<h1>Jobs</h1>
-
-<% if current_user.admin? %>
-  <%= puts "user is #{current_user.role}"%>
-  <%= link_to 'New Job', new_job_path %>
-<% end %>
-
-<% if current_user.candidate? %>
-    <%= form_with url: all_jobs_path, method: :get, local: true do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Search by title" %>
-    <%= submit_tag 'Search' %>
-    <% end %>
-<% end %>
-
-<ul>
-  <% if @jobs %>
-    <% @jobs.each do |job| %>
-      <li>
-        <%= link_to job.title, job_path(job) %>
-        <%= job.location %>
-      </li>
-    <% end %>
-  <% else %>
-    <li>No jobs available</li>
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice">
+      <%= notice %>
+    </p>
   <% end %>
-</ul>
+
+  <div class="flex justify-between items-center pb-8">
+    <h1 class="mx-auto text-4xl font-bold">Jobs</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New Job', new_job_path, class: "inline rounded-lg py-3 px-5 bg-green-600 text-white font-medium" %>
+    <% end %>
+  </div>
+
+  <% if @jobs.present? %>
+    <table id="jobs" class="mx-auto w-full table-auto">
+      <tbody>
+        <% @jobs.each do |job| %>
+          <tr class="<%= cycle('bg-green-50', 'bg-white') %>">
+            <td class="px-4 py-3">
+              <%= render job %>
+            </td>
+            <td class="px-3">
+              <ul class="space-y-2">
+                <li>
+                  <%= link_to 'Show', job, class: 'text-blue-600 hover:underline' %>
+                </li>
+                <li>
+                  <%= link_to 'Edit', edit_job_path(job), class: 'text-yellow-600 hover:underline' %>
+                </li>
+                <li>
+                  <%= link_to 'Destroy', job, class: 'text-red-600 hover:underline', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No jobs available at the moment.</p>
+  <% end %>
+</div>

@@ -24,3 +24,13 @@ unless User.exists?(email: admin_email)
 else
   puts "Default admin user already exists."
 end
+
+departments = %w[HR IT Finance Sales Marketing Accounting Business_Administration]
+departments.each do |dep_name|
+  Department.find_or_create_by(dep_name: dep_name)
+end
+
+skills = %w[Ruby JavaScript Python Java HTML CSS SQL]
+skills.each do |skill_name|
+  Skill.find_or_create_by(skill_name: skill_name)
+end

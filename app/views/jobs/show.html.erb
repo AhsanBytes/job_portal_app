@@ -1,20 +1,15 @@
-<%= form_with(model: JobApplicant.new, url: job_applicants_path, local: true, html: { multipart: true }) do |form| %>
-  <%= form.hidden_field :job_id, value: @job.id %>
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
 
-  <%= form.label :name %>
-  <%= form.text_field :name %>
+    <%= render @job %>
 
-  <%= form.label :email %>
-  <%= form.email_field :email %>
-
-  <%= form.label :phone_no %>
-  <%= form.text_field :phone_no %>
-
-  <%= form.label :resume %>
-  <%= form.file_field :resume %>
-
-  <%= form.label :cover_letter %>
-  <%= form.text_area :cover_letter %>
-
-  <%= form.submit 'Apply' %>
-<% end %>
+    <div class="mt-5">
+      <%= link_to "Edit this job", edit_job_path(@job), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= link_to "Back to jobs", jobs_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= button_to "Destroy this job", @job, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+    </div>
+  </div>
+</div>

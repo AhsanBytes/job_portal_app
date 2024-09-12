@@ -1,0 +1,63 @@
+<%= form_with(model: @job, local: true, class: "space-y-6") do |form| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+      <ul>
+        <% @job.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :title, class: "block text-gray-700" %>
+  <%= form.text_field :title, required: true, minlength: 3, maxlength: 100, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+
+  <div class="my-5">
+    <%= form.label :description, class: "block text-gray-700" %>
+    <%= form.rich_text_area :description, required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :company, class: "block text-gray-700" %>
+    <%= form.text_field :company, required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :work_space_type, "Work Place Type", class: "block text-gray-700" %>
+    <div class="space-x-4 mt-1">
+      <%= form.radio_button :work_space_type, 'onsite', required: true, class: "mr-2" %> <%= form.label :work_space_type_onsite, 'Onsite', class: "inline" %>
+      <%= form.radio_button :work_space_type, 'remote', required: true, class: "mr-2" %> <%= form.label :work_space_type_remote, 'Remote', class: "inline" %>
+      <%= form.radio_button :work_space_type, 'hybrid', required: true, class: "mr-2" %> <%= form.label :work_space_type_hybrid, 'Hybrid', class: "inline" %>
+    </div>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :location, class: "block text-gray-700" %>
+    <%= form.text_field :location, required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :department_id, "Select Department", class: "block text-gray-700" %>
+    <%= form.collection_select :department_id, Department.all, :id, :dep_name, prompt: "Select a Department", required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :skills, "Select Required Skills", class: "block text-gray-700" %>
+    <%= form.collection_check_boxes :skill_ids, Skill.all, :id, :skill_name, class: "space-y-2" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :lead_source, class: "block text-gray-700" %>
+    <%= form.text_field :lead_source, required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :active, class: "block text-gray-700" %>
+    <%= form.check_box :active, class: "mr-2" %> <%= form.label :active, 'Active', class: "inline" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.submit class: "bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" %>
+  </div>
+<% end %>
