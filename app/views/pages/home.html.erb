@@ -1,19 +1,10 @@
-
-<% if current_user %>
-  <p> Welcome <%= current_user.name %>! </p>
-  <p> You are a <%= current_user.role %> </p>
-  
-  <% if current_user.admin? || current_user.hr? %>
-  <%= render template: 'jobs/index' %>
-
-  <% elsif current_user.candidate? %>
-    <%= link_to "Apply for Jobs", all_jobs_path %>
-  <% end %>
-
-  <%= link_to "Logout", destroy_user_session_path, 'data-turbo-method': :delete %>
-
-<% else %>
-  <%= link_to "Sign Up!", new_user_registration_path %>
-  <br />
-  <%= link_to "Login", new_user_session_path %>
+<% if current_user && current_user.candidate %>
+  <%= render template: 'jobs/jobs_partial', class: "text-blue-500 hover:underline" %>
 <% end %>
+
+<div class="p-4">
+  <%= link_to "Sign Up!", new_user_registration_path, class: "bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" %>
+  <br />
+  <br />
+  <%= link_to "Login", new_user_session_path, class: "bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" %>
+</div>

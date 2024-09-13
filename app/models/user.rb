@@ -13,4 +13,6 @@ class User < ApplicationRecord
   has_many :jobs, foreign_key: :created_by_id, dependent: :destroy
   has_many :job_applicants
   has_many :applied_jobs, through: :job_applicants, source: :job
+
+  has_one_attached :resume
 end

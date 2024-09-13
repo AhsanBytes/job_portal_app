@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
   def home
-    @jobs = policy_scope(Job)
+    if current_user
+      if current_user.admin?
+        redirect_to jobs_path
+      end
+    end
   end
 end
