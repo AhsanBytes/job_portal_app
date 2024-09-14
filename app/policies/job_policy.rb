@@ -10,29 +10,25 @@ class JobPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin? || user.hr?
+    user.admin?
   end
 
   def update?
-    user.admin? || user.hr?
+    user.admin?
   end
 
   def destroy?
-    user.admin? || user.hr?
+    user.admin?
   end
 
   def show?
-    user.admin? || user.hr? || user.candidate?
-  end
-
-  def apply?
-    user.candidate?
+    user.admin? || user.candidate?
   end
 
   class Scope < ApplicationPolicy::Scope
 
     def resolve
-      if user.admin? || user.hr?
+      if user.admin?
         scope.all
       else
         scope.where(active: true)

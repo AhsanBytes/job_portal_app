@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_12_085519) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_14_144910) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -55,15 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_085519) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "job_applicants", force: :cascade do |t|
-    t.integer "job_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["job_id"], name: "index_job_applicants_on_job_id"
-    t.index ["user_id"], name: "index_job_applicants_on_user_id"
-  end
-
   create_table "job_skills", force: :cascade do |t|
     t.integer "job_id", null: false
     t.integer "skill_id", null: false
@@ -81,7 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_085519) do
     t.string "location"
     t.string "lead_source"
     t.boolean "active", default: true
-    t.integer "creater_id", null: false
+    t.integer "creator_id", null: false
     t.integer "department_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -92,6 +83,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_085519) do
     t.string "skill_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_jobs", force: :cascade do |t|
+    t.integer "job_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_user_jobs_on_job_id"
+    t.index ["user_id"], name: "index_user_jobs_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -111,10 +111,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_12_085519) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "job_applicants", "jobs"
-  add_foreign_key "job_applicants", "users"
   add_foreign_key "job_skills", "jobs"
   add_foreign_key "job_skills", "skills"
   add_foreign_key "jobs", "departments"
-  add_foreign_key "jobs", "users", column: "creater_id"
+  add_foreign_key "jobs", "users", column: "creator_id"
+  add_foreign_key "user_jobs", "jobs"
+  add_foreign_key "user_jobs", "users"
 end

@@ -18,7 +18,7 @@ class JobsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
-    @job.creater_id = current_user.id
+    @job.creator_id = current_user.id
     authorize @job
 
     if @job.save

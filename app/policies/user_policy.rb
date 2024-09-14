@@ -18,15 +18,13 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || user.hr? || user == record
+    user.admin? || user == record
   end
 
   class Scope < ApplicationPolicy::Scope
     def resolve
       if user.admin?
         scope.all
-      elsif user.hr?
-        scope.where(role: :candidate)
       else
         scope.where(id: user.id)
       end

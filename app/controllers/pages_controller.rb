@@ -3,6 +3,8 @@ class PagesController < ApplicationController
     if current_user
       if current_user.admin?
         redirect_to jobs_path
+      else
+        redirect_to jobs_path  
       end
     end
   end
