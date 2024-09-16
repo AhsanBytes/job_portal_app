@@ -1,18 +1,11 @@
 require 'test_helper'
 
 class JobPolicyTest < ActiveSupport::TestCase
-  def test_scope
-  end
+  # def setup
+  #   puts users(:admin)
+  #   @admin = users(:admin)
+  #   @candidate = users(:candidate1)
+  #   @job = jobs(:one)
+  # end
 
-  def test_show
-  end
-
-  def test_create
-  end
-
-  def test_update
-  end
-
-  def test_destroy
-  end
 end

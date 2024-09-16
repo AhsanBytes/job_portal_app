@@ -58,6 +58,8 @@ class JobsController < ApplicationController
 
       ActionCable.server.broadcast("job_notification_#{@job.id}", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
 
+      JobMailer.application_confirmation(current_user, @job).deliver_later
+
       flash[:notice] = "Successfully applied for the job."
       redirect_to jobs_path
     else

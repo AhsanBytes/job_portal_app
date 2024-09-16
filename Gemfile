@@ -76,3 +76,7 @@ gem "devise", "~> 4.9"
 gem "pundit", "~> 2.4"
 
 gem "tailwindcss-rails", "~> 2.7"
+
+group :test do
+  gem 'shoulda-matchers'
+end

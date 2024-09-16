@@ -1,15 +1,16 @@
-import consumer from "channels/consumer"
+import consumer from "./consumer"
 
-const jobNotification = (jobId) => {
-  consumer.subscriptions.create({ channel: "JobNotificationChannel", job_id: jobId }, {
-    received(data) {
-      console.log(data);
-      const notificationElement = document.getElementById("notifications");
-        if (notificationElement) {
-          notificationElement.innerHTML += `<div class="notification">${data.message}</div>`;
-        }
+document.addEventListener("turbolinks:load", () => {
+
+  consumer.subscriptions.create(
+    { channel: "JobNotificationChannel", job_id: jobId },
+    {
+      connected() {},
+      disconneted() {},
+      received(data) {
+        debugger
+        alert(`New application received: ${data.message}`);
+      }
     }
-  });
-}
-
-export { jobNotification };
+  )
+});

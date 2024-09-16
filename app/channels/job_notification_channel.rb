@@ -1,7 +1,6 @@
 class JobNotificationChannel < ApplicationCable::Channel
   def subscribed
-    job = Job.find(params[:job_id])
-    stream_from "job_notification_#{job.id}"
+    stream_from "job_notification_#{params[:job_id]}"
   end
 
   def unsubscribed

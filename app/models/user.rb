@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum role: {candidate: 0, admin: 1}
+  enum role: { candidate: 0, admin: 1 }
 
   validate :resume_presence
   validate :resume_format

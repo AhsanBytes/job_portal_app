@@ -1,7 +1,8 @@
-require "test_helper"
+require "shoulda/matchers"
+
 
 class DepartmentTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test '#jobs' do
+    assert_equal 2, Department.count
+  end
 end
