@@ -26,9 +26,14 @@
   <div class="my-5">
     <%= form.label :work_space_type, "Work Place Type", class: "block text-gray-700" %>
     <div class="space-x-4 mt-1">
-      <%= form.radio_button :work_space_type, 'onsite', required: true, class: "mr-2" %> <%= form.label :work_space_type_onsite, 'Onsite', class: "inline" %>
-      <%= form.radio_button :work_space_type, 'remote', required: true, class: "mr-2" %> <%= form.label :work_space_type_remote, 'Remote', class: "inline" %>
-      <%= form.radio_button :work_space_type, 'hybrid', required: true, class: "mr-2" %> <%= form.label :work_space_type_hybrid, 'Hybrid', class: "inline" %>
+      <%= form.radio_button :work_space_type, 'onsite', required: true, id: 'work_space_type_onsite', class: "mr-2" %>
+      <%= form.label :work_space_type_onsite, 'Onsite', class: "inline" %>
+
+      <%= form.radio_button :work_space_type, 'remote', required: true, id: 'work_space_type_remote', class: "mr-2" %>
+      <%= form.label :work_space_type_remote, 'Remote', class: "inline" %>
+
+      <%= form.radio_button :work_space_type, 'hybrid', required: true, id: 'work_space_type_hybrid', class: "mr-2" %>
+      <%= form.label :work_space_type_hybrid, 'Hybrid', class: "inline" %>
     </div>
   </div>
 

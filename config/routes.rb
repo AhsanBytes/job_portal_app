@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  get 'job_applicants/create'
-  devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root "root#index"
 
-  # Defines the root path route ("/")
-  # root "articles#index"
-  root "pages#home"
-  resources :jobs
-  resources :users
-  resources :job_applicants, only: [:create]
-  get 'jobs', to: 'jobs#index', as: :all_jobs
+  devise_for :users
+
+  resources :users, only: [:show]
+
+  resources :jobs do
+    member do
+      post 'apply'
+    end
+  end
 end

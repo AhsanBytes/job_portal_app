@@ -25,6 +25,10 @@ class JobPolicy < ApplicationPolicy
     user.admin? || user.candidate?
   end
 
+  def apply?
+    user.candidate?
+  end
+
   class Scope < ApplicationPolicy::Scope
 
     def resolve

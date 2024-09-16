@@ -1,59 +1,84 @@
-<div id="<%= dom_id job %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= job.title %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= job.description %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Company:</strong>
-    <%= job.company %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Work Space Type:</strong>
+<tr id="<%= dom_id(job) %>" class="<%= cycle('bg-green-50', 'bg-white') %>">
+  <td class="border px-4 py-2"><%= job.title %></td>
+  <td class="border px-4 py-2">
+    <%= truncate(strip_tags(job.description.body.to_s), length: 150) %>
+  </td>
+  <td class="border px-4 py-2"><%= job.company %></td>
+  <td class="border px-4 py-2">
     <%= case job.work_space_type
-      when 0 then 'Onsite'
-      when 1 then 'Remote'
-      when 2 then 'Hybrid'
-    end %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Location:</strong>
-    <%= job.location %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Lead Source:</strong>
-    <%= job.lead_source %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= job.active ? 'Active' : 'Inactive' %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Creator:</strong>
-    <%= User.find(job.creator_id).name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Department:</strong>
-    <%= job.department.dep_name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Skills:</strong>
+        when 0 then 'Onsite'
+        when 1 then 'Remote'
+        when 2 then 'Hybrid'
+      end %>
+  </td>
+  <td class="border px-4 py-2"><%= job.location %></td>
+  <td class="border px-4 py-2"><%= job.lead_source %></td>
+  <td class="border px-4 py-2"><%= job.active ? 'Active' : 'Inactive' %></td>
+  <td class="border px-4 py-2"><%= job.department.dep_name %></td>
+  <td class="border px-4 py-2">
     <ul>
       <% job.skills.each do |skill| %>
         <li><%= skill.skill_name %></li>
       <% end %>
     </ul>
-  </p>
-</div>
+  </td>
+
+  <td class="px-3">
+    <ul class="space-y-2">
+      <% if policy(job).edit? %>
+        <li>
+          <%= link_to 'Edit', edit_job_path(job), class: 'text-yellow-600 hover:underline' %>
+        </li>
+      <% end %>
+
+      <% if policy(job).destroy? %>
+        <li>
+          <%= link_to 'Destroy', job, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'text-red-600 hover:underline' %>
+        </li>
+      <% end %>
+
+      <% if policy(job).apply? %>
+        <li>
+          <% if current_user.user_jobs.where(job: job).exists? %>
+            <%= button_to 'Applied', apply_job_path(job), class: 'text-gray-400', disabled: true, form: { style: 'display: inline' } %>
+          <% else %>
+            <%= button_to 'Apply', apply_job_path(job), method: :post, class: 'text-blue-600 hover:underline', form: { style: 'display: inline' } %>
+          <% end %>        
+        </li>
+      <% end %>
+    </ul>
+  </td>
+</tr>
+
+<% if current_user.admin? %>
+  <tr>
+    <td colspan="10" class="bg-gray-50 px-4 py-2">
+      <h4 class="font-medium mb-2">Applicants:</h4>
+      <% if job.user_jobs.any? %>
+        <table class="min-w-full bg-white shadow rounded-lg">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 text-left">Name</th>
+              <th class="px-4 py-2 text-left">Email</th>
+              <th class="px-4 py-2 text-left">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% job.user_jobs.each do |user_job| %>
+              <% user = user_job.user %>
+              <tr>
+                <td class="border px-4 py-2"><%= user.name %></td>
+                <td class="border px-4 py-2"><%= user.email %></td>
+                <td class="border px-4 py-2">
+                  <%= link_to 'View Details', user_path(user), class: 'text-blue-500 hover:underline' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>No applicants yet for this job.</p>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

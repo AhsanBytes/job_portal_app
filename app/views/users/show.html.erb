@@ -1,0 +1,50 @@
+<h2 class="text-2xl font-bold mb-5">User Details</h2>
+
+<div class="space-y-4">
+  <div class="mt-5 mb-5">
+    <%= link_to 'Back to Home', root_path, class: 'inline-block px-5 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500' %>
+  </div>
+
+  <div>
+    <h3 class="text-xl font-semibold">Basic Information</h3>
+    <p><strong>Name:</strong> <%= @user.name %></p>
+    <p><strong>Email:</strong> <%= @user.email %></p>
+    <p><strong>Phone Number:</strong> <%= @user.phone_no %></p>
+  </div>
+
+  <div>
+    <h3 class="text-xl font-semibold">Resume</h3>
+    <% if @user.user_jobs.any? %>
+      <% resume = @user.user_jobs.last.resume %>
+      <% if resume.attached? %>
+        <%= link_to 'Download Resume', rails_blob_path(resume, disposition: "attachment"), class: 'text-blue-500 hover:underline' %>
+      <% else %>
+        <p>No resume attached.</p>
+      <% end %>
+    <% else %>
+      <p>No resume available.</p>
+    <% end %>
+  </div>
+  
+  <div>
+    <h3 class="text-xl font-semibold">Job Applications</h3>
+    <% if @user.user_jobs.any? %>
+      <table class="min-w-full bg-white shadow rounded-lg">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left">Job Title</th>
+            <th class="px-4 py-2 text-left">Application Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td class="border px-4 py-2"><%= @most_recent_job.job.title %></td>
+              <td class="border px-4 py-2"><%= @most_recent_job.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
+            </tr>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No job applications found.</p>
+    <% end %>
+  </div>
+</div>
