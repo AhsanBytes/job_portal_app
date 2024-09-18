@@ -1,4 +1,4 @@
-# one:
-#   record: name_of_fixture 
-#   name: content
+# se_description:
+#   record: se (Job)
+#   name: description
 #   body: <p>In a <i>million</i> stars!</p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_14_144910) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_18_061917) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -72,10 +72,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_14_144910) do
     t.string "location"
     t.string "lead_source"
     t.boolean "active", default: true
-    t.integer "creator_id", null: false
     t.integer "department_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "creator_id"
+    t.index ["creator_id"], name: "index_jobs_on_creator_id"
     t.index ["department_id"], name: "index_jobs_on_department_id"
   end
 

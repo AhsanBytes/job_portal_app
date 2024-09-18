@@ -4,8 +4,6 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   def show
-    authorize @user
-
     @most_recent_job = @user.user_jobs.order(created_at: :desc).first
   end
 

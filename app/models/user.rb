@@ -8,10 +8,11 @@ class User < ApplicationRecord
 
   validate :resume_presence
   validate :resume_format
-  validates :name, presence: true, length: { maximum: 100 }
-  validates :phone_no, presence: true, format: { with: /\A\+?[\d\s]+\z/, message: "must be a valid phone number" }
-  validates :role, presence: true, inclusion: { in: roles.keys }
-
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :phone_no, presence: true, 
+  format: { with: /\A\+?\d[\d\s]*\z/, message: "must be a valid phone number" },
+  length: { minimum: 10, maximum: 15, message: "must be between 10 and 15 digits" }
+ 
   has_many :user_jobs
   has_many :jobs, through: :user_jobs
 

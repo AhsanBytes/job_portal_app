@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+html:
   skill_name: HTML
 
-two:
+css:
   skill_name: CSS

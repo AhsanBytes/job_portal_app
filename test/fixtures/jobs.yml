@@ -1,23 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-SE:
-  title: "Software Engineer"
-  description: "Looking for a skilled Software Engineer."
-  company: "TechieMinions"
+se:
+  title: Software Engineer
+  company: TechieMinions
   work_space_type: 0
-  location: "Lahore"
-  lead_source: "LinkedIn"
+  location: Lahore
+  lead_source: LinkedIn
   active: true
-  creator_id: 1
-  department: IT
+  creator: admin
+  department: it
 
-PM:
-  title: "Project Manager"
-  description: "Experienced project manager needed."
-  company: "TechieMinions"
+pm:
+  title: Project Manager
+  company: TechieMinions
   work_space_type: 1
-  location: "Remote"
-  lead_source: "Indeed"
+  location: Remote
+  lead_source: Indeed
   active: false
-  creator_id: 1
-  department: HR
+  creator: admin
+  department: it

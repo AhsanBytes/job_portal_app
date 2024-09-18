@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-IT:
+it:
   dep_name: IT
 
-HR:
+hr:
   dep_name: HR

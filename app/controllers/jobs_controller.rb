@@ -45,27 +45,17 @@ class JobsController < ApplicationController
   def apply
     authorize @job
 
-    if current_user.user_jobs.where(job: @job).exists?
-      flash[:alert] = "You have already applied for this job."
-      redirect_to jobs_path and return
-    end
-
     @user_job = current_user.user_jobs.new(job: @job)
 
     if @user_job.save
-      resume_blob = current_user.resume.blob
-      @user_job.resume.attach(resume_blob)
-
       ActionCable.server.broadcast("job_notification_#{@job.id}", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
-
       JobMailer.application_confirmation(current_user, @job).deliver_later
 
       flash[:notice] = "Successfully applied for the job."
-      redirect_to jobs_path
     else
-      flash[:alert] = "Failed to apply for the job."
-      redirect_to jobs_path
+      flash[:alert] = @user_job.errors.full_messages.to_sentence
     end
+    redirect_to jobs_path
   end
 
   def edit
