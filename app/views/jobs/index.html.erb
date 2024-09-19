@@ -13,7 +13,7 @@
 
           <select name="department_id" class="border rounded px-4 py-2">
             <option value="">All Departments</option>
-            <% Department.all.each do |department| %>
+            <% @departments.each do |department| %>
               <option value="<%= department.id %>" <%= "selected" if params[:department_id] == department.id.to_s %>><%= department.dep_name %></option>
             <% end %>
           </select>
@@ -28,7 +28,7 @@
       </div>
   <% end %>
   
-  <% if @jobs.present? %>
+  <% if @jobs.exists? %>
     <table id="jobs" class="mx-auto w-full table-auto">
       <thead class="bg-gray-100">
         <tr>
@@ -46,7 +46,7 @@
       </thead>
       <tbody>
         <% @jobs.each do |job| %>
-          <%= render job %>
+          <%= render job, @applied_for_job %>
         <% end %>
       </tbody>
     </table>

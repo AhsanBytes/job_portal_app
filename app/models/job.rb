@@ -1,6 +1,8 @@
 class Job < ApplicationRecord
+  enum work_space_type: { onsite: 0, remote: 1, hybrid: 2 }
+
   validates :title, :description, :company, :work_space_type, :location, :creator_id, :lead_source, presence: true
-  validates :title, :description, uniqueness: true
+  validates :title, uniqueness: true
 
   belongs_to :department
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'

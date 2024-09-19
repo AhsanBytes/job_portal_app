@@ -46,8 +46,8 @@ class JobPolicyTest < ActiveSupport::TestCase
     assert @candidate_policy.show?
   end
 
-  test "candidate should be allowed to apply job" do
-    assert @candidate_policy.apply?
+  test "candidate should be allowed to apply job once" do
+    assert_not @candidate_policy.apply?
   end
 
   test "admin can see all active inactive jobs" do

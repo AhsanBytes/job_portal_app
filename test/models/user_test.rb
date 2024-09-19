@@ -51,7 +51,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should be valid with correct phone number" do
-    @user.phone_no = "+923132132323"
+    @user.phone_no = "0313213 2323"
     assert_not @user.valid?
   end
 
@@ -71,7 +71,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should be valid with spaces in phone number" do
-    @user.phone_no = "+92 313 2132323"
+    @user.phone_no = "+92 3132132323"
     assert_not @user.valid?
   end
 

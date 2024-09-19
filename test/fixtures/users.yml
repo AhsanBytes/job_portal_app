@@ -10,7 +10,7 @@ admin:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   role: 1
   name: Admin
-  phone_no: 03124523574
+  phone_no: +0 3124523574
 
 candidate1:
   email: candidate1@example.com
@@ -24,4 +24,4 @@ candidate2:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   role: 0
   name: Candidate2
-  phone_no: 03124523572
+  phone_no: +31 24523572

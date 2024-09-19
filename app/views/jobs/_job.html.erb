@@ -5,13 +5,7 @@
       <%= truncate(strip_tags(job.description.body.to_s), length: 150) %>
     </td>
     <td class="border px-4 py-2"><%= job.company %></td>
-    <td class="border px-4 py-2">
-      <%= case job.work_space_type
-          when 0 then 'Onsite'
-          when 1 then 'Remote'
-          when 2 then 'Hybrid'
-        end %>
-    </td>
+    <td class="border px-4 py-2"> <%= job.work_space_type %> </td>
     <td class="border px-4 py-2"><%= job.location %></td>
     <td class="border px-4 py-2"><%= job.lead_source %></td>
     <td class="border px-4 py-2"><%= job.active ? 'Active' : 'Inactive' %></td>
@@ -40,12 +34,10 @@
 
         <% if policy(job).apply? %>
           <li>
-            <% if current_user.user_jobs.where(job: job).exists? %>
-              <%= button_to 'Applied', apply_job_path(job), class: 'text-gray-400', disabled: true, form: { style: 'display: inline' } %>
-            <% else %>
               <%= button_to 'Apply', apply_job_path(job), method: :post, class: 'text-blue-600 hover:underline', form: { style: 'display: inline' } %>
-            <% end %>        
           </li>
+        <% elsif current_user.candidate? %>
+            <p> Applied </p>
         <% end %>
       </ul>
     </td>
@@ -55,7 +47,7 @@
     <tr>
       <td colspan="10" class="bg-gray-50 px-4 py-2">
         <h4 class="font-medium mb-2">Applicants:</h4>
-        <% if job.user_jobs.any? %>
+        <% if job.user_jobs.exists? %>
           <table class="min-w-full bg-white shadow rounded-lg">
             <thead class="bg-gray-100">
               <tr>
@@ -65,8 +57,7 @@
               </tr>
             </thead>
             <tbody>
-              <% job.user_jobs.each do |user_job| %>
-                <% user = user_job.user %>
+              <% job.users.each do |user| %>
                 <tr>
                   <td class="border px-4 py-2"><%= user.name %></td>
                   <td class="border px-4 py-2"><%= user.email %></td>

@@ -1,11 +1,13 @@
 import consumer from "./consumer"
 
-document.addEventListener("turbolinks:load", () => {
+// document.addEventListener("turbolinks:load", () => {
 
   consumer.subscriptions.create(
-    { channel: "JobNotificationChannel", job_id: jobId },
+    { channel: "JobNotificationChannel" },
     {
-      connected() {},
+      connected() {
+        console.log("Connected")
+      },
       disconneted() {},
       received(data) {
         debugger
@@ -13,4 +15,4 @@ document.addEventListener("turbolinks:load", () => {
       }
     }
   )
-});
+// });

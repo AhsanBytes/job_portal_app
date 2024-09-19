@@ -18,7 +18,7 @@ unless User.exists?(email: admin_email)
     password_confirmation: admin_password,
     role: :admin,
     name: 'Default Admin',
-    phone_no: '+1234567890'
+    phone_no: '+12 345 678 90'
   )
   puts "Default admin user created."
 else

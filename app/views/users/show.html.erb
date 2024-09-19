@@ -14,37 +14,25 @@
 
   <div>
     <h3 class="text-xl font-semibold">Resume</h3>
-    <% if @user.user_jobs.any? %>
-      <% resume = @user.user_jobs.last.resume %>
-      <% if resume.attached? %>
-        <%= link_to 'Download Resume', rails_blob_path(resume, disposition: "attachment"), class: 'text-blue-500 hover:underline' %>
-      <% else %>
-        <p>No resume attached.</p>
-      <% end %>
-    <% else %>
-      <p>No resume available.</p>
-    <% end %>
+    <% resume = @user.resume %>
+    <%= link_to 'Download Resume', rails_representation_url(resume), class: 'text-blue-500 hover:underline' %>
   </div>
   
   <div>
     <h3 class="text-xl font-semibold">Job Applications</h3>
-    <% if @user.user_jobs.any? %>
-      <table class="min-w-full bg-white shadow rounded-lg">
-        <thead class="bg-gray-100">
+    <table class="min-w-full bg-white shadow rounded-lg">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left">Job Title</th>
+          <th class="px-4 py-2 text-left">Application Date</th>
+        </tr>
+      </thead>
+      <tbody>
           <tr>
-            <th class="px-4 py-2 text-left">Job Title</th>
-            <th class="px-4 py-2 text-left">Application Date</th>
+            <td class="border px-4 py-2"><%= @most_recent_job.job.title %></td>
+            <td class="border px-4 py-2"><%= @most_recent_job.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
           </tr>
-        </thead>
-        <tbody>
-            <tr>
-              <td class="border px-4 py-2"><%= @most_recent_job.job.title %></td>
-              <td class="border px-4 py-2"><%= @most_recent_job.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
-            </tr>
-        </tbody>
-      </table>
-    <% else %>
-      <p>No job applications found.</p>
-    <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

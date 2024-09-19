@@ -26,17 +26,16 @@
   <div class="my-5">
     <%= form.label :work_space_type, "Work Place Type", class: "block text-gray-700" %>
     <div class="space-x-4 mt-1">
-      <%= form.radio_button :work_space_type, 'onsite', required: true, id: 'work_space_type_onsite', class: "mr-2" %>
+      <%= form.radio_button :work_space_type, 'onsite', checked: form.object.onsite?, required: true, class: "mr-2" %>
       <%= form.label :work_space_type_onsite, 'Onsite', class: "inline" %>
 
-      <%= form.radio_button :work_space_type, 'remote', required: true, id: 'work_space_type_remote', class: "mr-2" %>
+      <%= form.radio_button :work_space_type, 'remote', checked: form.object.remote?, required: true, class: "mr-2" %>
       <%= form.label :work_space_type_remote, 'Remote', class: "inline" %>
 
-      <%= form.radio_button :work_space_type, 'hybrid', required: true, id: 'work_space_type_hybrid', class: "mr-2" %>
+      <%= form.radio_button :work_space_type, 'hybrid', checked: form.object.hybrid?, required: true, class: "mr-2" %>
       <%= form.label :work_space_type_hybrid, 'Hybrid', class: "inline" %>
     </div>
   </div>
-
 
   <div class="my-5">
     <%= form.label :location, class: "block text-gray-700" %>
@@ -45,12 +44,12 @@
 
   <div class="my-5">
     <%= form.label :department_id, "Select Department", class: "block text-gray-700" %>
-    <%= form.collection_select :department_id, Department.all, :id, :dep_name, prompt: "Select a Department", required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
+    <%= form.collection_select :department_id, @departments, :id, :dep_name, prompt: "Select a Department", required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :skills, "Select Required Skills", class: "block text-gray-700" %>
-    <%= form.collection_check_boxes :skill_ids, Skill.all, :id, :skill_name, class: "space-y-2" %>
+    <%= form.collection_check_boxes :skill_ids, @skills, :id, :skill_name, required: true, class: "space-y-2" %>
   </div>
 
   <div class="my-5">
@@ -67,3 +66,5 @@
     <%= form.submit class: "bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" %>
   </div>
 <% end %>
+
+<%= link_to "Back to jobs", jobs_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>

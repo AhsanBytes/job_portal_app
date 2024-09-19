@@ -74,6 +74,9 @@ GEM
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     builder (3.3.0)
+    bullet (7.2.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.40.0)
       addressable
       matrix
@@ -213,8 +216,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    shoulda-matchers (6.4.0)
-      activesupport (>= 5.2.0)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -251,6 +252,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    uniform_notifier (1.16.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -276,6 +278,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bullet
   capybara
   debug
   devise (~> 4.9)
@@ -286,7 +289,6 @@ DEPENDENCIES
   pundit (~> 2.4)
   rails (~> 7.0.8, >= 7.0.8.4)
   selenium-webdriver
-  shoulda-matchers
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails

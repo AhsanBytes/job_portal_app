@@ -6,12 +6,11 @@ class User < ApplicationRecord
 
   enum role: { candidate: 0, admin: 1 }
 
-  validate :resume_presence
-  validate :resume_format
+  validate :resume_presence, :resume_format, if: -> { candidate? && resume.blank? }
   validates :name, presence: true, length: { maximum: 50 }
   validates :phone_no, presence: true, 
-  format: { with: /\A\+?\d[\d\s]*\z/, message: "must be a valid phone number" },
-  length: { minimum: 10, maximum: 15, message: "must be between 10 and 15 digits" }
+    format: { with: /\A\+?\d[\d\s]*\z/, message: "must be a valid phone number" },
+    length: { in: 10..15, message: "must be between 10 and 15 digits" }
  
   has_many :user_jobs
   has_many :jobs, through: :user_jobs
@@ -21,12 +20,10 @@ class User < ApplicationRecord
   private
 
   def resume_presence
-    errors.add(:resume, "must be attached") unless resume.attached?
+    errors.add(:resume, "must be attached")
   end
 
   def resume_format
-    if resume.attached? && !resume.content_type.in?(%w(application/pdf))
-      errors.add(:resume, "must be a PDF")
-    end
+    errors.add(:resume, "must be a PDF") unless resume.content_type.in?(%w(application/pdf))
   end
 end

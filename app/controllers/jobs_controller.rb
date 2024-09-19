@@ -1,6 +1,8 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_job, only: [:show, :apply, :edit, :update, :destroy]
+  before_action :set_departments, only: [:new, :edit]
+  before_action :set_skills, only: [:new, :edit]
   after_action :verify_authorized, except: :index
 
   def index
@@ -10,13 +12,13 @@ class JobsController < ApplicationController
       @jobs = @jobs.where("title LIKE ?", "%#{params[:search]}%")
     end
   
-    if params[:sort] == "recent"
-      @jobs = @jobs.order(created_at: :desc)
-    end
+    @jobs = @jobs.order(created_at: :desc) if params[:sort] == "recent"
   
     if params[:department_id].present?
       @jobs = @jobs.where(department_id: params[:department_id])
     end
+
+    @departments = Department.limit(7)
   end
 
   def show
@@ -48,7 +50,7 @@ class JobsController < ApplicationController
     @user_job = current_user.user_jobs.new(job: @job)
 
     if @user_job.save
-      ActionCable.server.broadcast("job_notification_#{@job.id}", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
+      ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
       JobMailer.application_confirmation(current_user, @job).deliver_later
 
       flash[:notice] = "Successfully applied for the job."
@@ -74,8 +76,12 @@ class JobsController < ApplicationController
 
   def destroy
     authorize @job
-    @job.destroy
-    redirect_to jobs_url, notice: 'Job was successfully deleted.'
+    if @job.destroy
+      flash[:notice] = 'Job was successfully deleted.'
+    else
+      flash[:notice] = 'Job was not deleted.'
+    end
+    redirect_to jobs_url
   end
 
   private
@@ -86,5 +92,13 @@ class JobsController < ApplicationController
 
   def job_params
     params.require(:job).permit(:title, :description, :company, :work_space_type, :location, :lead_source, :active, :department_id, skill_ids: [])
+  end
+
+  def set_departments
+    @departments = Department.limit(7)
+  end
+
+  def set_skills
+    @skills = Skill.limit(7)
   end
 end
