@@ -28,13 +28,13 @@
 
         <% if policy(job).destroy? %>
           <li>
-            <%= link_to 'Destroy', job, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'text-red-600 hover:underline' %>
+            <%= link_to 'Destroy', job, 'data-turbo-method': :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'text-red-600 hover:underline' %>
           </li>
         <% end %>
 
         <% if policy(job).apply? %>
           <li>
-              <%= button_to 'Apply', apply_job_path(job), method: :post, class: 'text-blue-600 hover:underline', form: { style: 'display: inline' } %>
+              <%= button_to 'Apply', apply_job_path(job), method: :post, class: 'text-blue-600 hover:underline' %>
           </li>
         <% elsif current_user.candidate? %>
             <p> Applied </p>
