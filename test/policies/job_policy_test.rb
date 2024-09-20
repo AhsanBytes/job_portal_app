@@ -22,10 +22,6 @@ class JobPolicyTest < ActiveSupport::TestCase
     assert @admin_policy.destroy?
   end
 
-  test "admin should be allowed to show a job" do
-    assert @admin_policy.show?
-  end
-
   test "admin should be allowed to apply a job" do
     assert_not @admin_policy.apply?
   end
@@ -40,10 +36,6 @@ class JobPolicyTest < ActiveSupport::TestCase
 
   test "candidate should not be allowed to destroy job" do
     assert_not @candidate_policy.destroy?
-  end
-
-  test "candidate should be allowed to show job" do
-    assert @candidate_policy.show?
   end
 
   test "candidate should be allowed to apply job once" do

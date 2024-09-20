@@ -21,10 +21,6 @@ class JobsController < ApplicationController
     @departments = Department.limit(7)
   end
 
-  def show
-    authorize @job
-  end
-
   def new
     @job = Job.new
     authorize @job
@@ -50,6 +46,7 @@ class JobsController < ApplicationController
     @user_job = current_user.user_jobs.new(job: @job)
 
     if @user_job.save
+
       ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
       JobMailer.application_confirmation(current_user, @job).deliver_later
 
@@ -72,6 +69,10 @@ class JobsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def show
+    authorize @job
   end
 
   def destroy
