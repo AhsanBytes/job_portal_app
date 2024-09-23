@@ -7,8 +7,8 @@ class Job < ApplicationRecord
   belongs_to :department
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
 
-  has_many :applicants, dependent: :destroy
-  has_many :users, through: :applicants
+  has_many :user_jobs, dependent: :destroy
+  has_many :users, through: :user_jobs
   has_many :job_skills, dependent: :destroy
   has_many :skills, through: :job_skills
   

@@ -47,7 +47,7 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
   test "candidate can apply for a job" do
     @job = jobs(:se)
     sign_in @user
-    assert @user.applicants.new(job: @job).valid?
+    assert @user.user_jobs.new(job: @job).valid?
     post apply_job_path(@job)
     assert_equal flash[:notice], 'Successfully applied for the job.'
     assert_redirected_to jobs_path
@@ -56,12 +56,12 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
   test "candidate can't apply for a job mutliple times" do
     @job = jobs(:se)
     sign_in @user
-    assert @user.applicants.new(job: @job).valid?
+    assert @user.user_jobs.new(job: @job).valid?
     post apply_job_path(@job)
     assert_equal flash[:notice], 'Successfully applied for the job.'
     assert_redirected_to jobs_path
 
-    assert_not @user.applicants.new(job: @job).valid?
+    assert_not @user.user_jobs.new(job: @job).valid?
     post apply_job_path(@job)
     assert_equal 'You are not authorized to perform this action.', flash[:alert]
     assert_redirected_to root_path

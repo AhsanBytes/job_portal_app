@@ -13,6 +13,10 @@ class JobPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def edit?
+    create?
+  end
+
   def update?
     create?
   end
@@ -22,7 +26,7 @@ class JobPolicy < ApplicationPolicy
   end
 
   def apply?
-    user.candidate? && user.applicants.find_by(job: @record).blank?
+    user.candidate? && user.user_jobs.find_by(job: @record).blank?
   end
 
   class Scope < ApplicationPolicy::Scope

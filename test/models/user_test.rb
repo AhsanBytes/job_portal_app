@@ -63,12 +63,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test 'user has_many applicants' do
-    assert_respond_to  @user, :applicants, "User don't have applicants association"
+  test 'user has_many user_jobs' do
+    assert_respond_to  @user, :user_jobs, "User don't have user_jobs association"
   end
 
-  test 'user has_many jobs through applicants' do
-    assert_respond_to @user, :jobs, "User don't have jobs through applicants association"
+  test 'user has_many jobs through user_jobs' do
+    assert_respond_to @user, :jobs, "User don't have jobs through user_jobs association"
   end
 
   test 'candidate must have resume attached' do

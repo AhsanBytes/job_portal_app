@@ -56,15 +56,15 @@ class JobTest < ActiveSupport::TestCase
     assert_not duplicate_job.valid?, 'Duplicate job title should be invalid'
   end
 
-  test 'job has_many applicants' do
-    assert_respond_to @job, :applicants, 'Jobs dont have has_many association with applicants'
+  test 'job has_many user_jobs' do
+    assert_respond_to @job, :user_jobs, 'Jobs dont have has_many association with user_jobs'
   end
 
   test 'job has_many job_skills' do
     assert_respond_to @job, :job_skills, 'Jobs dont have has_many association with job_skills'
   end
 
-  test 'job has_many users through applicants' do
+  test 'job has_many users through user_jobs' do
     assert_respond_to @job, :users, 'Jobs dont have has_many association with users'
   end
 

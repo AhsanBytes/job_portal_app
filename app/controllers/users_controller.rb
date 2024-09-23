@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show]
 
   def show
-    @most_recent_applicant = @user.jobs.order(created_at: :desc).first
+    @most_recent_user_job = @user.jobs.order(created_at: :desc).first
   end
 
   private

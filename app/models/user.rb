@@ -14,8 +14,8 @@ class User < ApplicationRecord
     format: { with: /\A\+?\d[\d\s]*\z/, message: "must be a valid phone number" },
     length: { in: 10..15, message: "must be between 10 and 15 digits" }
  
-  has_many :applicants
-  has_many :jobs, through: :applicants
+  has_many :user_jobs
+  has_many :jobs, through: :user_jobs
 
   has_one_attached :resume
 

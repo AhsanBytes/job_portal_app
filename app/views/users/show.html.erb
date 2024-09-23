@@ -15,7 +15,7 @@
   <div>
     <h3 class="text-xl font-semibold">Resume</h3>
     <% if @user.resume.attached? %>
-      <%= link_to 'Download Resume', rails_representation_url(@ser.resume), class: 'text-blue-500 hover:underline' %>
+      <%= link_to 'Download Resume', rails_representation_url(@user.resume), class: 'text-blue-500 hover:underline' %>
     <% else %>
       <p>No resume attached.</p>
     <% end %>
@@ -32,8 +32,8 @@
       </thead>
       <tbody>
           <tr>
-            <td class="border px-4 py-2"><%= @most_recent_applicant.title %></td>
-            <td class="border px-4 py-2"><%= @most_recent_applicant.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
+            <td class="border px-4 py-2"><%= @most_recent_user_job.title %></td>
+            <td class="border px-4 py-2"><%= @most_recent_user_job.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
           </tr>
       </tbody>
     </table>

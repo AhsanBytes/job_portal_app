@@ -1,7 +1,7 @@
 class JobsController < ApplicationController
   before_action :set_job, only: [:show, :apply, :edit, :update, :destroy]
   before_action :set_departments, only: [:create,:new, :edit, :index]
-  before_action :set_skills, only: [:new, :edit]
+  before_action :set_skills, only: [:edit, :new]
   after_action :verify_authorized, except: :index
 
   def index
@@ -32,21 +32,21 @@ class JobsController < ApplicationController
       flash[:notice] = "Job successfully created."
       redirect_to jobs_path
     else
-      flash[:alert] = "Failed to create job."
-      render :new
+      flash[:alert] = @job.errors.full_messages.to_sentence
+      redirect_to new_job_path
     end
   end
 
   def apply
     authorize @job
-    @applicant = current_user.applicants.new(job: @job)
-    if @applicant.save
+    @user_job = current_user.user_jobs.new(job: @job)
+    if @user_job.save
       ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
       JobMailer.application_confirmation(current_user, @job).deliver_later
 
       flash[:notice] = "Successfully applied for the job."
     else
-      flash[:alert] = @applicant.errors.full_messages.to_sentence
+      flash[:alert] = @user_job.errors.full_messages.to_sentence
     end
     redirect_to jobs_path
   end
