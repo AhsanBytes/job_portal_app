@@ -1,0 +1,8 @@
+<div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+  <h2><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
+  <ul>
+    <% job.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+    <% end %>
+  </ul>
+</div>

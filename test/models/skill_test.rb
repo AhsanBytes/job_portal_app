@@ -6,7 +6,7 @@ class SkillTest < ActiveSupport::TestCase
   end
 
   test "skill name can't be blank" do
-    @skill.skill_name = ''
+    @skill.name = ''
     assert_not @skill.valid?, 'skill name should not be blank'
   end
 

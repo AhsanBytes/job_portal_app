@@ -3,24 +3,32 @@ require 'application_system_test_case'
 class AdminFunctionalitySystemTest < ApplicationSystemTestCase
   def setup
     @admin = users(:admin)
+    
+    # Ensure there are departments available
+    @department = Department.create(name: 'IT')
   end
+
   test 'admin can create job' do
     sign_in @admin
-    visit jobs_path(@admin)
+    visit jobs_path
 
     click_on "New Job"
 
     fill_in 'Title', with: 'Creating a Job'
     fill_in 'Company', with: 'TechieMinions'
-    fill_in 'work_space_type', with: 'onsite'
-    fill_in 'location', with: 'remote'
-    fill_in 'lead_source', with: 'INdeed'
-    fill_in 'active', with: true
-    fill_in 'creator', with: 'admin'
-    fill_in 'department', with: 'it'
-  
+    
+    choose 'job_work_space_type_onsite'
+    
+    fill_in 'Location', with: 'remote'
+    fill_in 'Lead source', with: 'INdeed'
+    
+    check 'job_active'
+    
+    # Select the department from the created department
+    select @department.name, from: 'job[department_id]'
+    
     click_on "Create Job"
   
-    assert_text "JOb created successfully"
+    assert_text "Job created successfully"
   end
 end

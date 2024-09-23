@@ -4,6 +4,6 @@ candidate1_se:
   user: candidate1
   job: se
 
-candidate2_pm:
-  user: candidate2
-  job: pm
+# candidate2_pm:
+#   user: candidate2
+#   job: pm

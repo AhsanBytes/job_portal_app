@@ -1,14 +1,14 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_user, only: [:show]
 
   def show
-    @most_recent_job = @user.user_jobs.order(created_at: :desc).first
+    @most_recent_applicant = @user.jobs.order(created_at: :desc).first
   end
 
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+    redirect_to_jobs unless @user
   end
 end

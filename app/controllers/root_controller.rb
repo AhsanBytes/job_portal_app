@@ -1,7 +1,7 @@
 class RootController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def index
-    if current_user
-      redirect_to jobs_path
-    end
+    redirect_to jobs_path if current_user
   end
 end

@@ -1,6 +1,5 @@
 class Department < ApplicationRecord
-  validates :dep_name, presence: true
-  validates :dep_name, uniqueness: true
+  validates :name, presence: true, uniqueness: true
 
   has_many :jobs
 end

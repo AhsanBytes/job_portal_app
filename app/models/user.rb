@@ -6,14 +6,16 @@ class User < ApplicationRecord
 
   enum role: { candidate: 0, admin: 1 }
 
-  validate :resume_presence, :resume_format, if: -> { candidate? && resume.blank? }
+  validate :resume_presence, if: -> { candidate? && resume.blank? }
+  validate :resume_format, if: -> { candidate? && resume.attached? }
+
   validates :name, presence: true, length: { maximum: 50 }
   validates :phone_no, presence: true, 
     format: { with: /\A\+?\d[\d\s]*\z/, message: "must be a valid phone number" },
     length: { in: 10..15, message: "must be between 10 and 15 digits" }
  
-  has_many :user_jobs
-  has_many :jobs, through: :user_jobs
+  has_many :applicants
+  has_many :jobs, through: :applicants
 
   has_one_attached :resume
 

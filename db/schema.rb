@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_18_061917) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_22_171156) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -49,8 +49,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_18_061917) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "applicants", force: :cascade do |t|
+    t.integer "job_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_applicants_on_job_id"
+    t.index ["user_id"], name: "index_applicants_on_user_id"
+  end
+
   create_table "departments", force: :cascade do |t|
-    t.string "dep_name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,45 +74,36 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_18_061917) do
   end
 
   create_table "jobs", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
-    t.string "company"
-    t.integer "work_space_type"
-    t.string "location"
-    t.string "lead_source"
+    t.string "company", null: false
+    t.integer "work_space_type", null: false
+    t.string "location", null: false
+    t.string "lead_source", null: false
     t.boolean "active", default: true
     t.integer "department_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "creator_id"
+    t.integer "creator_id", null: false
     t.index ["creator_id"], name: "index_jobs_on_creator_id"
     t.index ["department_id"], name: "index_jobs_on_department_id"
   end
 
   create_table "skills", force: :cascade do |t|
-    t.string "skill_name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "user_jobs", force: :cascade do |t|
-    t.integer "job_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["job_id"], name: "index_user_jobs_on_job_id"
-    t.index ["user_id"], name: "index_user_jobs_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "email", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "name"
+    t.string "name", null: false
     t.integer "role", default: 0
-    t.string "phone_no"
+    t.string "phone_no", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -112,10 +112,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_18_061917) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "applicants", "jobs"
+  add_foreign_key "applicants", "users"
   add_foreign_key "job_skills", "jobs"
   add_foreign_key "job_skills", "skills"
   add_foreign_key "jobs", "departments"
   add_foreign_key "jobs", "users", column: "creator_id"
-  add_foreign_key "user_jobs", "jobs"
-  add_foreign_key "user_jobs", "users"
 end

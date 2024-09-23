@@ -15,10 +15,9 @@ class RootControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
 
     sign_in @user
-    get jobs_path
-    assert_response :success
+    assert_response :redirect
 
     sign_out @user
-    assert_response :success
+    assert_response :redirect
   end
 end

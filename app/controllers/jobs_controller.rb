@@ -1,7 +1,6 @@
 class JobsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_job, only: [:show, :apply, :edit, :update, :destroy]
-  before_action :set_departments, only: [:new, :edit]
+  before_action :set_departments, only: [:create,:new, :edit, :index]
   before_action :set_skills, only: [:new, :edit]
   after_action :verify_authorized, except: :index
 
@@ -17,8 +16,6 @@ class JobsController < ApplicationController
     if params[:department_id].present?
       @jobs = @jobs.where(department_id: params[:department_id])
     end
-
-    @departments = Department.limit(7)
   end
 
   def new
@@ -42,15 +39,14 @@ class JobsController < ApplicationController
 
   def apply
     authorize @job
-
-    @user_job = current_user.user_jobs.new(job: @job)
-    if @user_job.save
+    @applicant = current_user.applicants.new(job: @job)
+    if @applicant.save
       ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
       JobMailer.application_confirmation(current_user, @job).deliver_later
 
       flash[:notice] = "Successfully applied for the job."
     else
-      flash[:alert] = @user_job.errors.full_messages.to_sentence
+      flash[:alert] = @applicant.errors.full_messages.to_sentence
     end
     redirect_to jobs_path
   end
@@ -74,7 +70,7 @@ class JobsController < ApplicationController
     if @job.destroy
       flash[:notice] = 'Job was successfully deleted.'
     else
-      flash[:notice] = 'Job was not deleted.'
+      flash[:notice] = "Job was not deleted: #{ @job.errors.full_messages.to_sentence }"
     end
     redirect_to jobs_url
   end
@@ -82,7 +78,7 @@ class JobsController < ApplicationController
   private
 
   def set_job
-    @job = Job.find(params[:id])
+    @job = Job.find_by(id: params[:id])
   end
 
   def job_params

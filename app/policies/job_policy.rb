@@ -14,25 +14,24 @@ class JobPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    create?
   end
 
   def destroy?
-    user.admin?
+    create?
   end
 
   def apply?
-    user.candidate? && user.user_jobs.find_by(@job).blank?
-    # debugger
+    user.candidate? && user.applicants.find_by(job: @record).blank?
   end
 
   class Scope < ApplicationPolicy::Scope
 
     def resolve
       if user.admin?
-        scope.includes([ :department, :skills, :rich_text_description ])
+        scope.includes([ :users, :department, :rich_text_description ])
       else
-        scope.includes([ :department, :skills, :rich_text_description ]).where(active: true)
+        scope.includes([ :department, :rich_text_description ]).active
       end
     end
   end

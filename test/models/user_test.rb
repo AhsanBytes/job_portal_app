@@ -5,23 +5,11 @@ class UserTest < ActiveSupport::TestCase
     @user = users(:candidate1)
   end
 
-  test 'devise has authenticatable module' do
+  test 'devise has authenticatable, registerable, recoverable, rememberable, validatable module' do
     assert_includes @user.devise_modules, :database_authenticatable, "devise don't have authenticatable module"
-  end
-
-  test 'devise has registerable module' do
     assert_includes @user.devise_modules, :registerable, "devise don't have registerable module"
-  end
-
-  test 'devise has recoverable module' do
     assert_includes @user.devise_modules, :recoverable, "devise don't have recoverable module"
-  end
-
-  test 'devise has rememberable module' do
     assert_includes @user.devise_modules, :rememberable, "devise don't have rememberable module"
-  end
-
-  test 'devise has validatable module' do
     assert_includes @user.devise_modules, :validatable, "devise don't have validateable module"
   end
 
@@ -75,11 +63,42 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test 'user has_many user_jobs' do
-    assert_respond_to  @user, :user_jobs, "User don't have user_jobs association"
+  test 'user has_many applicants' do
+    assert_respond_to  @user, :applicants, "User don't have applicants association"
   end
 
-  test 'user has_many jobs through user_jobs' do
-    assert_respond_to @user, :jobs, "User don't have jobs through user_jobs association"
+  test 'user has_many jobs through applicants' do
+    assert_respond_to @user, :jobs, "User don't have jobs through applicants association"
+  end
+
+  test 'candidate must have resume attached' do
+    @user.resume.detach
+    assert_not @user.valid?
+    assert_includes @user.errors.full_messages, "Resume must be attached"
+  end
+
+  test 'candidate resume must be a PDF' do
+    @user.resume.attach(
+      io: File.open(Rails.root.join('test', 'fixtures', 'files', 'invalid_resume.png')),
+      filename: 'invalid_resume.png',
+      content_type: 'text/plain'
+    )
+    assert_not @user.valid?
+    assert_includes @user.errors.full_messages, "Resume must be a PDF"
+  end
+
+  test 'admin does not require a resume' do
+    admin = users(:admin)
+    admin.resume.detach
+    assert admin.valid?
+  end
+
+  test 'candidate with a valid PDF resume should be valid' do
+    @user.resume.attach(
+      io: File.open(Rails.root.join('test', 'fixtures', 'files', 'resume.pdf')),
+      filename: 'resume.pdf',
+      content_type: 'application/pdf'
+    )
+    assert @user.valid?, 'Candidate should be valid with a PDF resume'
   end
 end

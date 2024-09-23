@@ -1,4 +1,4 @@
-class UserJob < ApplicationRecord
+class Applicant < ApplicationRecord
   before_save :attach_resume
 
   validates :user_id, uniqueness: { scope: :job_id, message: "have already applied for job" }

@@ -9,11 +9,11 @@
     <td class="border px-4 py-2"><%= job.location %></td>
     <td class="border px-4 py-2"><%= job.lead_source %></td>
     <td class="border px-4 py-2"><%= job.active ? 'Active' : 'Inactive' %></td>
-    <td class="border px-4 py-2"><%= job.department.dep_name %></td>
+    <td class="border px-4 py-2"><%= job.department.name %></td>
     <td class="border px-4 py-2">
       <ul>
-        <% job.skills.each do |skill| %>
-          <li><%= skill.skill_name %></li>
+        <% job.skills.find_each do |skill| %>
+          <li><%= skill.name %></li>
         <% end %>
       </ul>
     </td>
@@ -47,7 +47,7 @@
     <tr>
       <td colspan="10" class="bg-gray-50 px-4 py-2">
         <h4 class="font-medium mb-2">Applicants:</h4>
-        <% if job.user_jobs.exists? %>
+        <% if job.users.exists? %>
           <table class="min-w-full bg-white shadow rounded-lg">
             <thead class="bg-gray-100">
               <tr>

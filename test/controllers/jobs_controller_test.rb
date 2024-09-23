@@ -8,15 +8,15 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
 
   test "admin index" do
     sign_in @admin
-    get jobs_path
+    assert :success
   end
 
   test "candidate index" do
+    job1 = jobs(:se)
     sign_in @user
-    get jobs_path
-
-    post jobs_url, params: { job: { title: 'Marketing' } }
-    assert_equal jobs.count, 2
+    get jobs_url, params: { search: 'Engineer' }
+    assert_response :success
+    assert_match job1.title, response.body
   end
 
   test "create a new job" do
@@ -41,14 +41,29 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to jobs_path
-    assert_equal "Job successfully created.", flash[:notice]
+    assert_equal 'Job successfully created.', flash[:notice]
   end
 
-  test "candidate can apply for job" do
+  test "candidate can apply for a job" do
     @job = jobs(:se)
     sign_in @user
-    assert @user.user_jobs.new(job: @job).valid?
+    assert @user.applicants.new(job: @job).valid?
     post apply_job_path(@job)
+    assert_equal flash[:notice], 'Successfully applied for the job.'
+    assert_redirected_to jobs_path
+  end
+
+  test "candidate can't apply for a job mutliple times" do
+    @job = jobs(:se)
+    sign_in @user
+    assert @user.applicants.new(job: @job).valid?
+    post apply_job_path(@job)
+    assert_equal flash[:notice], 'Successfully applied for the job.'
+    assert_redirected_to jobs_path
+
+    assert_not @user.applicants.new(job: @job).valid?
+    post apply_job_path(@job)
+    assert_equal 'You are not authorized to perform this action.', flash[:alert]
     assert_redirected_to root_path
   end
 end

@@ -10,13 +10,13 @@ class DepartmentTest < ActiveSupport::TestCase
   end
 
   test 'should not be valid without a name' do
-    @dep.dep_name = nil
+    @dep.name = nil
     assert_not @dep.valid?, 'Department is valid without a name'
   end
 
   test 'should not allow duplicate department names' do
     @dep.save
-    duplicate_dep = Department.new(dep_name: 'IT')
+    duplicate_dep = Department.new(name: 'IT')
     duplicate_dep.save
     assert_not duplicate_dep.valid?, 'Duplicate department name should be invalid'
   end
@@ -26,7 +26,7 @@ class DepartmentTest < ActiveSupport::TestCase
   end
 
   test 'should not allow empty department name' do
-    @dep.dep_name = ''
+    @dep.name = ''
     assert_not @dep.valid?, 'Department is invalid with an empty name'
   end
 end

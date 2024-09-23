@@ -7,25 +7,17 @@
   </div>
 
   <% if current_user.candidate? %>
-      <div class="w-full flex justify-between items-center pb-8">
-        <form method="get" action="<%= jobs_path %>" class="flex space-x-4 w-full">
-          <input type="text" name="search" placeholder="Search jobs by title" class="border rounded px-4 py-2" value="<%= params[:search] %>">
+    <div class="w-full flex justify-between items-center pb-8">
+      <%= form_tag(jobs_path, method: :get) do %>
+        <%= text_field_tag :search, params[:search], placeholder: "Search jobs by title", class: "border rounded px-4 py-2" %>
 
-          <select name="department_id" class="border rounded px-4 py-2">
-            <option value="">All Departments</option>
-            <% @departments.each do |department| %>
-              <option value="<%= department.id %>" <%= "selected" if params[:department_id] == department.id.to_s %>><%= department.dep_name %></option>
-            <% end %>
-          </select>
+        <%= select_tag :department_id, options_for_select(@departments.map { |d| [d.name, d.id] }, params[:department_id]), include_blank: "All Departments", class: "border rounded px-4 py-2" %>
 
-          <select name="sort" class="border rounded px-4 py-2">
-            <option value="">Sort</option>
-            <option value="recent" <%= "selected" if params[:sort] == "recent" %>>Most Recent</option>
-          </select>
+        <%= select_tag :sort, options_for_select([["Most Recent", "recent"]], params[:sort]), include_blank: "Sort", class: "border rounded px-4 py-2" %>
 
-          <button type="submit" class="bg-blue-600 text-white rounded px-4 py-2">Filter</button>
-        </form>
-      </div>
+        <%= submit_tag "Filter", class: "bg-blue-600 text-white rounded px-4 py-2" %>
+      <% end %>
+    </div>
   <% end %>
   
   <% if @jobs.exists? %>
