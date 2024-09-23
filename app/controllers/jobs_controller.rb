@@ -1,5 +1,5 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: [:show, :apply, :edit, :update, :destroy]
+  before_action :set_job, only: [:apply, :edit, :update, :destroy]
   before_action :set_departments, only: [:create,:new, :edit, :index]
   before_action :set_skills, only: [:edit, :new]
   after_action :verify_authorized, except: :index

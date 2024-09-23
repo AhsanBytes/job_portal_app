@@ -25,7 +25,7 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Job.count") do
       post jobs_url, params: 
       { 
-        job: 
+        job:
           {
             title: 'Marketing',
             description: "this is testing the rich text and jobs creating functionality",

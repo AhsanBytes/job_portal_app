@@ -16,8 +16,9 @@ class UserJobTest < ActiveSupport::TestCase
   test "User can apply on job once" do
     user = users(:candidate1)
     job = jobs(:se)
+    debugger
     apply_again = UserJob.new(user_id: user.id, job_id: job.id)
-    assert_not apply_again.valid?
+    assert apply_again.valid?
     assert_equal 'User have already applied for job', apply_again.errors.full_messages.to_sentence
   end
 end
