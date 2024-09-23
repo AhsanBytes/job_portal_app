@@ -17,6 +17,10 @@ consumer.subscriptions.create(
 
         document.body.appendChild(flashMessage);
         console.log(flashMessage)
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000000);
       }
     } 
   }
