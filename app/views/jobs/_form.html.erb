@@ -42,7 +42,14 @@
 
   <div class="my-5">
     <%= form.label :skills, "Select Required Skills", class: "block text-gray-700" %>
-    <%= form.collection_check_boxes :skill_ids, skills, :id, :name, include_hidden: false, required: true, class: "space-y-2" %>
+    <div class="flex flex-col ml-5 space-y-2">
+      <%= form.collection_check_boxes :skill_ids, skills, :id, :name, include_hidden: false, required: true do |b| %>
+        <div class="flex items-center">
+          <%= b.check_box %>
+          <%= b.label(class: "mr-2 ml-2 text-gray-700") %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="my-5">
@@ -51,7 +58,6 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :active, class: "block text-gray-700" %>
     <%= form.check_box :active, class: "mr-2" %>
     <%= form.label :active, 'Active', class: "inline" %>
   </div>
@@ -61,4 +67,4 @@
   </div>
 <% end %>
 
-<%= link_to "Back to jobs", jobs_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+<%= link_to "Back to jobs", jobs_path, class: "mt-5 rounded-lg py-3 px-3 bg-gray-100 inline-block font-medium" %>

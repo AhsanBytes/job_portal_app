@@ -33,7 +33,7 @@ class JobPolicy < ApplicationPolicy
 
     def resolve
       if user.admin?
-        scope.includes([ :users, :department, :rich_text_description ])
+        scope.includes([ :department, :rich_text_description ])
       else
         scope.includes([ :department, :rich_text_description ]).active
       end

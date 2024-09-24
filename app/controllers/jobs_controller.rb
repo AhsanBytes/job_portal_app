@@ -8,7 +8,7 @@ class JobsController < ApplicationController
     @jobs = policy_scope(Job)
 
     if params[:search].present?
-      @jobs = @jobs.where("title LIKE ?", "%#{params[:search]}%")
+      @jobs = @jobs.search_by_title(params[:search])
     end
   
     @jobs = @jobs.order(created_at: :desc) if params[:sort] == "recent"
@@ -40,15 +40,19 @@ class JobsController < ApplicationController
   def apply
     authorize @job
     @user_job = current_user.user_jobs.new(job: @job)
-    if @user_job.save
-      ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
-      JobMailer.application_confirmation(current_user, @job).deliver_later
 
-      flash[:notice] = "Successfully applied for the job."
-    else
-      flash[:alert] = @user_job.errors.full_messages.to_sentence
+    respond_to do |format|
+      if @user_job.save
+        ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
+        JobMailer.application_confirmation(current_user, @job).deliver_later
+
+        format.turbo_stream
+        format.html { redirect_to jobs_path, notice: "Successfully applied for the job." }
+      else
+        format.turbo_stream
+        format.html { redirect_to jobs_path, alert: @user_job.errors.full_messages.to_sentence }
+      end
     end
-    redirect_to jobs_path
   end
 
   def edit
@@ -58,10 +62,14 @@ class JobsController < ApplicationController
   def update
     authorize @job
 
-    if @job.update(job_params)
-      redirect_to jobs_path, notice: 'Job was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @job.update(job_params)
+        format.turbo_stream
+        format.html { redirect_to jobs_path, notice: "Job was successfully updated." }
+      else
+        format.turbo_stream
+        format.html { redirect_to jobs_path, alert: @user_job.errors.full_messages.to_sentence }
+      end
     end
   end
 

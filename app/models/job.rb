@@ -15,4 +15,7 @@ class Job < ApplicationRecord
   has_rich_text :description
 
   scope :active, -> { where(active: true) }
+  scope :search_by_title, ->(query) {
+    where("title LIKE ?", "%#{query}%") if query.present?
+  }
 end

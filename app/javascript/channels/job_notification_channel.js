@@ -20,7 +20,7 @@ consumer.subscriptions.create(
 
         setTimeout(() => {
           window.location.reload();
-        }, 1000000);
+        }, 1000);
       }
     } 
   }

@@ -34,7 +34,7 @@
 
         <% if policy(job).apply? %>
           <li>
-              <%= button_to 'Apply', apply_job_path(job), method: :post, class: 'text-blue-600 hover:underline' %>
+              <%= button_to 'Apply', apply_job_path(job), method: :post, data: { turbo_confirm: 'Are you sure you want to apply for this job?' }, class: 'text-blue-600 hover:underline' %>
           </li>
         <% elsif current_user.candidate? %>
             <p> Applied </p>
@@ -57,12 +57,12 @@
               </tr>
             </thead>
             <tbody>
-              <% job.users.each do |user| %>
+              <% job.users.find_each do |user| %>
                 <tr>
                   <td class="border px-4 py-2"><%= user.name %></td>
                   <td class="border px-4 py-2"><%= user.email %></td>
                   <td class="border px-4 py-2">
-                    <%= link_to 'View Details', user_path(user), class: 'text-blue-500 hover:underline' %>
+                    <%= link_to 'View Details', user_path(user, job_id: job.id), class: 'text-blue-500 hover:underline' %>
                   </td>
                 </tr>
               <% end %>

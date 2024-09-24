@@ -26,11 +26,11 @@ else
 end
 
 departments = %w[HR IT Finance Sales Marketing Accounting Business_Administration]
-departments.each do |name|
+departments.find_each do |name|
   Department.create!(name: name)
 end
 
 skills = %w[Ruby JavaScript Python Java HTML CSS SQL]
-skills.each do |name|
+skills.find_each do |name|
   Skill.create!(name: name)
 end
