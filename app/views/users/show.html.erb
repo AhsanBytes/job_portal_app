@@ -15,7 +15,7 @@
     <div>
       <h3 class="text-xl font-semibold">Resume</h3>
       <% if @user.resume.attached? %>
-        <%= link_to 'Download Resume', rails_blob_path(@user.resume, disposition: "attachment"), class: 'text-blue-500 hover:underline' %>
+        <%= link_to 'Download Resume', rails_representation_url(@user.resume, disposition: "attachment"), class: 'text-blue-500 hover:underline' %>
       <% else %>
         <p>No resume attached.</p>
       <% end %>
