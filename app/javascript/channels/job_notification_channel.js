@@ -1,7 +1,7 @@
 import consumer from "./consumer"
 
 consumer.subscriptions.create(
-  { channel: "JobNotificationChannel" },
+  { channel: "JobNotificationChannel", creator_id: '1' },
   {
     connected() {
       console.log("Connected to JobNotificationChannel");
@@ -17,10 +17,6 @@ consumer.subscriptions.create(
 
         document.body.appendChild(flashMessage);
         console.log(flashMessage)
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       }
     } 
   }

@@ -40,16 +40,17 @@ class JobsController < ApplicationController
   def apply
     authorize @job
     @user_job = current_user.user_jobs.new(job: @job)
+    @id = @job.creator_id
 
     respond_to do |format|
       if @user_job.save
-        ActionCable.server.broadcast("job_notification", { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"} )
+        ActionCable.server.broadcast("job_creator_#{@id}", { data: { message: "Real Time Notification, #{current_user.name} applied for your job: #{@job.title}"}, creator_id: @id , candidate_name: current_user.name })
         JobMailer.application_confirmation(current_user, @job).deliver_later
 
-        format.turbo_stream
+        format.turbo_stream { render turbo_stream: turbo_stream.update("apply_job#{@job.id}", partial: "jobs/apply", locals: { job: @job }) }
         format.html { redirect_to jobs_path, notice: "Successfully applied for the job." }
       else
-        format.turbo_stream
+        format.turbo_stream { render turbo_stream: turbo_stream.update("apply_job#{@job.id}", partial: "jobs/apply", locals: { job: @job }) }
         format.html { redirect_to jobs_path, alert: @user_job.errors.full_messages.to_sentence }
       end
     end

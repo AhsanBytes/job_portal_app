@@ -1,6 +1,6 @@
 <%= form_with(model: @job, local: true, class: "space-y-6") do |form| %>
   <% if @job.errors.any? %>
-    render partial: 'devise/shared/error_messages', locals: { job: @job }
+    <%= render partial: 'devise/shared/error_messages', locals: { resource: @job } %>
   <% end %>
 
   <%= form.label :title, class: "block text-gray-700" %>
@@ -40,17 +40,18 @@
     <%= form.collection_select :department_id, departments, :id, :name, prompt: "Select a Department", required: true, class: "block shadow rounded-md p-2 mt-1 w-full" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :skills, "Select Required Skills", class: "block text-gray-700" %>
-    <div class="flex flex-col ml-5 space-y-2">
-      <%= form.collection_check_boxes :skill_ids, skills, :id, :name, include_hidden: false, required: true do |b| %>
-        <div class="flex items-center">
-          <%= b.check_box %>
-          <%= b.label(class: "mr-2 ml-2 text-gray-700") %>
-        </div>
-      <% end %>
-    </div>
+<div class="my-5">
+  <%= form.label :skills, "Select Required Skills", class: "block text-gray-700" %>
+  <div class="flex flex-wrap space-x-4"> <!-- Changed to flex-wrap and space-x-4 for horizontal spacing -->
+    <%= form.collection_check_boxes :skill_ids, skills, :id, :name, include_hidden: false, required: true do |b| %>
+      <div class="flex items-center">
+        <%= b.check_box %>
+        <%= b.label(class: "mr-2 ml-2 text-gray-700") %>
+      </div>
+    <% end %>
   </div>
+</div>
+
 
   <div class="my-5">
     <%= form.label :lead_source, class: "block text-gray-700" %>
