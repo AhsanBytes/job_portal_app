@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+candidate1_se:
+  user: candidate1
+  job: se
+
+# candidate2_pm:
+#   user: candidate2
+#   job: pm

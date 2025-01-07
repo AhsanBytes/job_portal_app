@@ -1,0 +1,22 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+se:
+  title: Software Engineer
+  company: TechieMinions
+  work_space_type: 0
+  location: Lahore
+  lead_source: LinkedIn
+  active: true
+  creator: admin
+  department: it
+
+pm:
+  title: Project Manager
+  company: TechieMinions
+  work_space_type: 1
+  location: Remote
+  lead_source: Indeed
+  active: false
+  creator: admin
+  department: it
+  

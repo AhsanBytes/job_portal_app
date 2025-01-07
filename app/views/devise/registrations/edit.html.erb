@@ -1,0 +1,70 @@
+<h2 class="text-2xl font-bold mb-6">Edit <%= resource_name.to_s.humanize %></h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="mb-5">
+    <%= f.label :name, class: "block text-gray-700 mb-1" %>
+    <%= f.text_field :name, autofocus: true, class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+  </div>
+
+  <div class="mb-5">
+    <%= f.label :phone_no, class: "block text-gray-700 mb-1" %>
+    <%= f.text_field :phone_no, class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+  </div>
+
+  <div class="mb-5">
+    <%= f.label :email, class: "block text-gray-700 mb-1" %>
+    <%= f.email_field :email, autocomplete: "email", class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="mb-5 text-yellow-600">
+      Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+    </div>
+  <% end %>
+
+  <div class="mb-5">
+    <%= f.label :password, class: "block text-gray-700 mb-1" %> 
+    <span class="text-gray-500 text-sm">(leave blank if you don't want to change it)</span><br />
+    <%= f.password_field :password, autocomplete: "new-password", class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+    <% if @minimum_password_length %>
+      <div class="text-gray-500 text-sm">
+        <em><%= @minimum_password_length %> characters minimum</em>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-5">
+    <%= f.label :password_confirmation, class: "block text-gray-700 mb-1" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+  </div>
+
+  <div class="mb-5">
+    <%= f.label :current_password, class: "block text-gray-700 mb-1" %> 
+    <span class="text-gray-500 text-sm">(we need your current password to confirm your changes)</span><br />
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+  </div>
+
+  <div class="mb-5">
+    <%= f.label :resume, class: "block text-gray-700 mb-1" %>
+    <%= f.file_field :resume, class: "block shadow rounded-md p-2 mt-1 w-1/2" %>
+    <% if resource.resume.attached? %>
+      <div class="mt-2">
+        Current Resume: <%= link_to 'Download', rails_blob_path(resource.resume, disposition: 'attachment'), class: "text-blue-500 hover:underline" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-5">
+    <%= f.submit "Update", class: "bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" %>
+  </div>
+<% end %>
+
+<h3 class="text-xl font-semibold mb-4">Cancel my account</h3>
+
+<div class="mb-5">
+  Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" %>
+</div>
+
+<%= link_to "Back", :back, class: "text-blue-500 hover:underline" %>

@@ -5,12 +5,33 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= action_cable_meta_tag %>
     <%= javascript_importmap_tags %>
   </head>
+  <body class="bg-gray-50">
+    <main class="container mx-auto mt-28 px-5 bg-blue shadow-lg">
+      <% if notice.present? %>
+        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block w-full text-center" id="notice">
+          <%= notice %>
+        </p>
+      <% end %>
 
-  <body>
-    <%= yield %>
+      <% if alert.present? %>
+        <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block w-full text-center" id="alert">
+          <%= alert %>
+        </p>
+      <% end %>
+
+      <% if current_user %>
+        <div class="mt-5 mb-5">
+          <%= link_to "Logout", destroy_user_session_path, 'data-turbo-method': :delete, class: "inline rounded-lg py-3 px-5 bg-green-600 text-white font-medium" %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+      <br /> <br />
+    </main>
   </body>
 </html>

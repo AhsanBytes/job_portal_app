@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "apply_job#{job.id}" do %>
+  <div class="mx-auto md:w-2/3 w-full">
+    <% if policy(job).apply? %>
+      <li>
+          <%= button_to 'Apply', apply_job_path(job), method: :post, data: { turbo_confirm: 'Are you sure you want to apply for this job?' }, class: 'text-blue-600 hover:underline' %>
+      </li>
+      <% elsif current_user.candidate? %>
+      <p> Applied</p>
+    <% end %>
+  </div>
+<% end %>

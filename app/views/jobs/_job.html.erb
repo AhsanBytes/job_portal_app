@@ -1,0 +1,70 @@
+<%= turbo_frame_tag(dom_id(job)) do %>
+  <tr class="<%= cycle('bg-green-50', 'bg-white') %>">
+    <td class="border px-4 py-2"><%= job.title %></td>
+    <td class="border px-4 py-2">
+      <%= truncate(strip_tags(job.description.body.to_s), length: 150) %>
+    </td>
+    <td class="border px-4 py-2"><%= job.company %></td>
+    <td class="border px-4 py-2"> <%= job.work_space_type %> </td>
+    <td class="border px-4 py-2"><%= job.location %></td>
+    <td class="border px-4 py-2"><%= job.lead_source %></td>
+    <td class="border px-4 py-2"><%= job.active ? 'Active' : 'Inactive' %></td>
+    <td class="border px-4 py-2"><%= job.department.name %></td>
+    <td class="border px-4 py-2">
+      <ul>
+        <% job.skills.find_each do |skill| %>
+          <li><%= skill.name %></li>
+        <% end %>
+      </ul>
+    </td>
+
+    <td class="px-3">
+      <ul class="space-y-2">
+        <% if policy(job).edit? %>
+          <li>
+            <%= link_to 'Edit', edit_job_path(job), class: 'text-yellow-600 hover:underline' %>
+          </li>
+        <% end %>
+
+        <% if policy(job).destroy? %>
+          <li>
+            <%= link_to 'Destroy', job, 'data-turbo-method': :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'text-red-600 hover:underline' %>
+          </li>
+        <% end %>
+        <%= render partial: "apply", locals: { job: job } %>                                                                                                                                                                                           
+      </ul>
+    </td>
+  </tr>
+
+  <% if current_user.admin? %>
+    <tr>
+      <td colspan="10" class="bg-gray-50 px-4 py-2">
+        <h4 class="font-medium mb-2">Applicants:</h4>
+        <% if job.users.exists? %>
+          <table class="min-w-full bg-white shadow rounded-lg">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Email</th>
+                <th class="px-4 py-2 text-left">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% job.users.find_each do |user| %>
+                <tr>
+                  <td class="border px-4 py-2"><%= user.name %></td>
+                  <td class="border px-4 py-2"><%= user.email %></td>
+                  <td class="border px-4 py-2">
+                    <%= link_to 'View Details', user_path(user, job_id: job.id), class: 'text-blue-500 hover:underline' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>No applicants yet for this job.</p>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
